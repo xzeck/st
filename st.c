@@ -176,7 +176,7 @@ static void csidump(void);
 static void csihandle(void);
 static void csiparse(void);
 static void csireset(void);
-static int eschandle(uchar);
+static int  eschandle(uchar);
 static void strdump(void);
 static void strhandle(void);
 static void strparse(void);
@@ -692,6 +692,8 @@ execsh(char *cmd, char **args)
 	const struct passwd *pw;
 
 	errno = 0;
+
+	/* Get the password ID from the User ID and check if its NULL */
 	if ((pw = getpwuid(getuid())) == NULL) {
 		if (errno)
 			die("getpwuid: %s\n", strerror(errno));
@@ -726,7 +728,7 @@ execsh(char *cmd, char **args)
 	signal(SIGTERM, SIG_DFL);
 	signal(SIGALRM, SIG_DFL);
 
-	execvp(prog, args);
+	execvp(prog, args); //Executes shell
 	_exit(1);
 }
 
